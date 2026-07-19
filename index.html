@@ -541,12 +541,12 @@
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--bg2); border-top: 1px solid var(--border2);
     z-index: 200; padding: 0 4px env(safe-area-inset-bottom, 8px);
-    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
   }
   .mobile-nav-inner {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    height: 56px; align-items: center;
+    height: 60px; align-items: center;
   }
   .mob-nav-btn {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -554,12 +554,13 @@
     color: var(--text3); font-size: 10px; font-family: var(--font);
     letter-spacing: 0.02em; padding: 6px 2px; border-radius: var(--radius);
     -webkit-tap-highlight-color: transparent; transition: color 0.15s;
+    min-height: 56px; width: 100%;
   }
   .mob-nav-btn.active { color: var(--accent); }
   .mob-nav-btn .mob-icon { font-size: 18px; line-height: 1; }
   .mob-nav-more { position: relative; }
   .mob-nav-more-menu {
-    display: none; position: fixed; bottom: calc(56px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0;
+    display: none; position: fixed; bottom: calc(60px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0;
     background: var(--bg2); border-top: 1px solid var(--border2);
     padding: 12px 16px; z-index: 199;
     grid-template-columns: 1fr 1fr;
@@ -608,18 +609,39 @@
     .ticker-strip { display: none; }
     .logo-text { font-size: 14px; }
     .mobile-nav { display: block; }
-    .content { padding-bottom: calc(56px + env(safe-area-inset-bottom, 16px)); }
-    .page { padding: 14px; }
+    .content { padding-bottom: calc(72px + env(safe-area-inset-bottom, 16px)); }
+    .page { padding: 12px; gap: 12px; }
     .page-header { flex-direction: column; gap: 8px; }
     .header-actions { width: 100%; }
-    .header-actions .btn { flex: 1; justify-content: center; }
+    .header-actions .btn { flex: 1; justify-content: center; min-height: 44px; }
     .kpi-tile { padding: 12px; }
     .kpi-value { font-size: 20px; }
-    .card { padding: 14px; }
+    .card { padding: 12px; }
     .ai-panel { padding: 12px; }
-    .ai-messages { max-height: 200px; }
+    .ai-messages { max-height: 40vh; }
     .grid-1-2 { grid-template-columns: 1fr; }
     .grid-2-1 { grid-template-columns: 1fr; }
+    /* Larger tap targets on mobile */
+    .btn { min-height: 44px; padding: 10px 14px; }
+    .sidebar-item { min-height: 44px; padding: 10px 12px; }
+    .chip { padding: 8px 14px; font-size: 12px; min-height: 36px; display: inline-flex; align-items: center; }
+    .filing-row { padding: 12px 10px; min-height: 56px; }
+    .search-filter-chips { gap: 8px; }
+    .mob-nav-btn { padding: 8px 2px; }
+    .mob-more-item { min-height: 52px; padding: 12px 14px; font-size: 14px; }
+    .ai-input { font-size: 16px; /* prevent iOS zoom */ padding: 12px; min-height: 44px; }
+    .ai-key-input { font-size: 16px; /* prevent iOS zoom */ min-height: 44px; }
+    .search-input { font-size: 16px; /* prevent iOS zoom */ }
+    .btn-primary { font-size: 14px; }
+    /* Quick prompt buttons */
+    .ai-panel .btn-ghost { min-height: 48px; padding: 10px 12px; }
+    /* Modal improvements */
+    .modal-box { padding: 20px 16px; }
+    .modal-close { width: 40px; height: 40px; font-size: 18px; }
+    /* Tab buttons */
+    .tab-btn { min-height: 40px; font-size: 12px; }
+    /* Data table scroll */
+    .data-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
   @media (max-width: 400px) {
     .kpi-value { font-size: 18px; }
@@ -1734,18 +1756,18 @@
           <input class="search-input" placeholder="Search filings, topics, keywords..." type="text">
         </div>
         <div class="search-filter-chips" style="margin-bottom:16px">
-          <span class="chip chip-blue">All</span>
-          <span class="chip chip-off">10-K</span>
-          <span class="chip chip-off">10-Q</span>
-          <span class="chip chip-off">8-K</span>
-          <span class="chip chip-off">S-3</span>
-          <span class="chip chip-off">DEF14A</span>
+          <span class="chip chip-blue" onclick="filterFilings('all',this)" data-filter="all">All</span>
+          <span class="chip chip-off" onclick="filterFilings('10-K',this)" data-filter="10-K">10-K</span>
+          <span class="chip chip-off" onclick="filterFilings('10-Q',this)" data-filter="10-Q">10-Q</span>
+          <span class="chip chip-off" onclick="filterFilings('8-K',this)" data-filter="8-K">8-K</span>
+          <span class="chip chip-off" onclick="filterFilings('S-3',this)" data-filter="S-3">S-3</span>
+          <span class="chip chip-off" onclick="filterFilings('DEF14A',this)" data-filter="DEF14A">DEF14A</span>
         </div>
 
         <div class="card">
           <div class="card-header"><span class="card-title">Recent Filings</span></div>
           <div class="scroll-box" style="max-height:350px">
-            <div class="filing-row" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">DZYNE Technologies Acquisition — $875.8M</div>
@@ -1753,7 +1775,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Raises FY2026 Revenue Guidance to $525M+</div>
@@ -1761,15 +1783,15 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
-              <div class="filing-icon filing-8k">8-K</div>
+            <div class="filing-row" data-type="S-3" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=S-3&dateb=&owner=include&count=10')">
+              <div class="filing-icon filing-8k">S-3</div>
               <div class="filing-info">
                 <div class="filing-title">Prospectus Supplement — Omnisys/World View Resale Shares</div>
                 <div class="filing-date">Jun 26, 2026 · S-3 / 424B</div>
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Omnisys Ltd. Acquisition — ~$259M</div>
@@ -1777,7 +1799,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="10-Q" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=10-Q&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-10q">10-Q</div>
               <div class="filing-info">
                 <div class="filing-title">Q1 2026 Results — Revenue $50.1M, Guidance to $390M</div>
@@ -1785,7 +1807,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Mistral, Inc. Merger Completed — $457M Pro Forma Backlog</div>
@@ -1793,7 +1815,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">World View Enterprises Acquisition</div>
@@ -1801,7 +1823,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">BIRD Aerosystems, Rotron, INDO Earth Moving Acquisitions</div>
@@ -1809,7 +1831,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="10-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=10-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-10k">10-K</div>
               <div class="filing-info">
                 <div class="filing-title">Annual Report FY2025 (Form 10-K) — Revenue $50.7M</div>
@@ -1817,15 +1839,15 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
-              <div class="filing-icon filing-8k">8-K</div>
+            <div class="filing-row" data-type="S-3" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=S-3&dateb=&owner=include&count=10')">
+              <div class="filing-icon filing-8k">S-3</div>
               <div class="filing-info">
                 <div class="filing-title">$959M Registered Direct / Public Equity Offering</div>
                 <div class="filing-date">Jan 2026 · Form 8-K / 424B</div>
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Roboteam Acquisition — $81.7M</div>
@@ -1833,7 +1855,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" data-type="8-K" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Sentrycs Acquisition — $224.6M</div>
@@ -1970,7 +1992,7 @@
     <div class="page-header">
       <div>
         <div class="page-title">AI Research Analyst</div>
-        <div class="page-sub">Powered by Claude · ONDS-Specialized Research Intelligence</div>
+        <div class="page-sub">Powered by Gemini · ONDS-Specialized Research Intelligence</div>
       </div>
     </div>
 
@@ -2011,15 +2033,15 @@
       <!-- Chat -->
       <div class="ai-panel">
 
-        <!-- GitHub Pages / CORS workaround banner -->
+        <!-- Gemini API key setup banner -->
         <div class="ai-setup-banner" id="aiSetupBanner">
-          <div class="ai-setup-title">⚠️ AI Configuration Required</div>
+          <div class="ai-setup-title">⚡ Gemini API Key Required</div>
           <div class="ai-setup-desc">
-            When running from a <strong>GitHub Pages / local file</strong>, the browser blocks direct API calls without a proxy. Enter your <strong>Anthropic API key</strong> below to enable the AI Analyst. Your key is stored only in your browser's session memory — never sent anywhere except Anthropic's servers directly.<br><br>
-            <em>Don't have a key?</em> Get one at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a> — the free tier works fine for this tool.
+            Enter your <strong>Google Gemini API key</strong> to enable the AI Analyst. Your key is stored only in your browser's session memory — never sent anywhere except Google's servers directly.<br><br>
+            <em>Get a free key at</em> <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com/apikey</a> — the free tier works fine for this tool.
           </div>
           <div class="ai-key-row">
-            <input class="ai-key-input" id="apiKeyInput" type="text" placeholder="sk-ant-api03-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input class="ai-key-input" id="apiKeyInput" type="text" placeholder="AIza..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="btn btn-primary" onclick="saveApiKey()" style="white-space:nowrap">Save Key</button>
           </div>
           <div class="ai-key-status missing" id="aiKeyStatus">⚠ No API key set — AI will not respond</div>
@@ -2043,7 +2065,7 @@
           <input class="ai-input" id="aiInput" placeholder="Ask about ONDS — financials, strategy, risk, products..." type="text" onkeydown="if(event.key==='Enter')sendAIMessage()">
           <button class="btn btn-primary" onclick="sendAIMessage()" style="flex-shrink:0">Send ↗</button>
         </div>
-        <div style="margin-top:8px;font-size:10px;color:var(--text3);font-family:var(--mono)">Powered by Claude claude-sonnet-4-6 · Real-time ONDS research intelligence</div>
+        <div style="margin-top:8px;font-size:10px;color:var(--text3);font-family:var(--mono)">Powered by Gemini 1.5 Flash · Real-time ONDS research intelligence</div>
       </div>
     </div>
   </div>
@@ -2410,20 +2432,55 @@ RISKS:
 
 Provide detailed, nuanced, data-driven analysis. Be specific with numbers, dates, and strategic rationale. Format responses clearly. Be honest about risks as well as opportunities, including dilution and valuation concerns. Think like a buy-side analyst writing research notes. Note that stock prices and short-term news move fast — recommend the user verify live prices via a real-time source.`;
 
-const conversationHistory = [];
+const conversationHistory = []; // Gemini format: [{role:'user', parts:[{text}]}, {role:'model', parts:[{text}]}]
 
-// ── API Key Management (GitHub Pages workaround) ──
-let userApiKey = sessionStorage.getItem('onds_api_key') || '';
+// ── Filing search + filter ──
+function filterFilings(type, chipEl) {
+  // Update chip styles
+  document.querySelectorAll('.search-filter-chips .chip').forEach(c => {
+    c.className = 'chip chip-off';
+  });
+  chipEl.className = 'chip chip-blue';
+
+  // Show/hide rows
+  document.querySelectorAll('.filing-row').forEach(row => {
+    const rowType = row.getAttribute('data-type') || '';
+    row.style.display = (type === 'all' || rowType === type) ? 'flex' : 'none';
+  });
+}
+
+// Filing search input filter
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.querySelector('.search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('.filing-row').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = (q === '' || text.includes(q)) ? 'flex' : 'none';
+      });
+      if (q !== '') {
+        // reset chip filter to all when searching
+        document.querySelectorAll('.search-filter-chips .chip').forEach(c => { c.className = 'chip chip-off'; });
+        const allChip = document.querySelector('[data-filter="all"]');
+        if (allChip) allChip.className = 'chip chip-blue';
+      }
+    });
+  }
+});
+
+// ── API Key Management (Gemini) ──
+let userApiKey = sessionStorage.getItem('onds_gemini_key') || '';
 
 function saveApiKey() {
   const val = document.getElementById('apiKeyInput').value.trim();
-  if (!val || !val.startsWith('sk-')) {
-    document.getElementById('aiKeyStatus').textContent = '✕ Invalid key format — must start with sk-';
+  if (!val || !val.startsWith('AIza')) {
+    document.getElementById('aiKeyStatus').textContent = '✕ Invalid key — Gemini keys start with AIza';
     document.getElementById('aiKeyStatus').className = 'ai-key-status missing';
     return;
   }
   userApiKey = val;
-  sessionStorage.setItem('onds_api_key', val);
+  sessionStorage.setItem('onds_gemini_key', val);
   document.getElementById('apiKeyInput').value = '';
   updateAiKeyStatus();
 }
@@ -2432,13 +2489,13 @@ function updateAiKeyStatus() {
   const banner = document.getElementById('aiSetupBanner');
   const dot = document.getElementById('aiStatusDot');
   const status = document.getElementById('aiKeyStatus');
-  if (userApiKey && userApiKey.startsWith('sk-')) {
+  if (userApiKey && userApiKey.startsWith('AIza')) {
     if (banner) banner.style.display = 'none';
-    if (dot) { dot.textContent = '● Online · Specialized ONDS model'; dot.style.color = 'var(--green)'; }
-    if (status) { status.textContent = '✓ API key saved for this session'; status.className = 'ai-key-status ok'; }
+    if (dot) { dot.textContent = '● Online · Gemini 1.5 Flash · Specialized ONDS model'; dot.style.color = 'var(--green)'; }
+    if (status) { status.textContent = '✓ Gemini API key saved for this session'; status.className = 'ai-key-status ok'; }
   } else {
     if (banner) banner.style.display = 'block';
-    if (dot) { dot.textContent = '◌ API key required to activate'; dot.style.color = 'var(--amber)'; }
+    if (dot) { dot.textContent = '◌ Gemini API key required to activate'; dot.style.color = 'var(--amber)'; }
     if (status) { status.textContent = '⚠ No API key set — AI will not respond'; status.className = 'ai-key-status missing'; }
   }
 }
@@ -2453,13 +2510,13 @@ async function sendAIMessage() {
   if (!text) return;
 
   // Check for key
-  if (!userApiKey || !userApiKey.startsWith('sk-')) {
+  if (!userApiKey || !userApiKey.startsWith('AIza')) {
     showPage('aichat');
     const banner = document.getElementById('aiSetupBanner');
     if (banner) { banner.style.border = '1px solid var(--amber)'; banner.scrollIntoView({behavior:'smooth',block:'center'}); }
     const errMsg = document.createElement('div');
     errMsg.className = 'ai-msg ai';
-    errMsg.innerHTML = '⚠️ <strong>API key required.</strong> Enter your Anthropic API key in the setup panel above to enable the AI Analyst.';
+    errMsg.innerHTML = '⚡ <strong>Gemini API key required.</strong> Enter your key in the setup panel above. Get one free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com/apikey</a>';
     messages.appendChild(errMsg);
     messages.scrollTop = messages.scrollHeight;
     return;
@@ -2472,7 +2529,7 @@ async function sendAIMessage() {
   messages.appendChild(userMsg);
   messages.scrollTop = messages.scrollHeight;
 
-  conversationHistory.push({ role: 'user', content: text });
+  conversationHistory.push({ role: 'user', parts: [{ text }] });
 
   const typingEl = document.createElement('div');
   typingEl.className = 'ai-msg ai';
@@ -2481,37 +2538,45 @@ async function sendAIMessage() {
   messages.scrollTop = messages.scrollHeight;
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': userApiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory
-      })
-    });
+    // Build contents array for Gemini (includes history + system as first user turn)
+    const contents = [
+      { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
+      { role: 'model', parts: [{ text: 'Understood. I am the ONDS Research Analyst, fully briefed on Ondas Holdings through July 2026. Ready to assist with investment analysis.' }] },
+      ...conversationHistory
+    ];
+
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${userApiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents,
+          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
+        })
+      }
+    );
+
     if (!resp.ok) {
       const err = await resp.json().catch(() => ({}));
       throw new Error(err?.error?.message || `HTTP ${resp.status}`);
     }
+
     const data = await resp.json();
-    const reply = data.content?.map(b => b.text || '').join('\n') || 'Error retrieving response.';
-    conversationHistory.push({ role: 'assistant', content: reply });
+    const reply = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n')
+      || data?.candidates?.[0]?.content?.text
+      || 'No response returned.';
+
+    conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
     typingEl.className = 'ai-msg ai';
     typingEl.innerHTML = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   } catch (e) {
     typingEl.className = 'ai-msg ai';
-    const isAuthErr = e.message?.includes('401') || e.message?.toLowerCase().includes('auth');
+    const isAuthErr = e.message?.includes('401') || e.message?.includes('403') || e.message?.toLowerCase().includes('api key') || e.message?.toLowerCase().includes('permission');
     typingEl.innerHTML = isAuthErr
-      ? '🔑 <strong>Authentication failed.</strong> Check your API key — it may be invalid or expired. Update it in the setup panel above.'
-      : `⚠️ <strong>Connection error:</strong> ${e.message || 'Could not reach Anthropic API. Check your internet connection.'}`;
-    if (isAuthErr) { userApiKey = ''; sessionStorage.removeItem('onds_api_key'); updateAiKeyStatus(); }
+      ? '🔑 <strong>Authentication failed.</strong> Check your Gemini API key — it may be invalid or missing permissions. Update it in the setup panel above.'
+      : `⚠️ <strong>Connection error:</strong> ${e.message || 'Could not reach Gemini API. Check your internet connection.'}`;
+    if (isAuthErr) { userApiKey = ''; sessionStorage.removeItem('onds_gemini_key'); updateAiKeyStatus(); }
   }
   messages.scrollTop = messages.scrollHeight;
 }
@@ -2524,7 +2589,7 @@ function sendQuickPrompt(text) {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.activeElement === document.getElementById('aiInput')) sendAIMessage();
+  if (e.key === 'Escape') closeModalDirect();
 });
 
 // ── Mobile Nav helpers ──
