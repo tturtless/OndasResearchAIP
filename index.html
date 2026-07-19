@@ -502,6 +502,147 @@
   .geo-map { background: var(--bg3); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
   .geo-dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; border: 2px solid; animation: pulse-dot 2s infinite; }
   @keyframes pulse-dot { 0%,100% { transform: scale(1); opacity:0.8; } 50% { transform: scale(1.6); opacity:0.4; } }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(5,10,15,0.85); backdrop-filter: blur(4px);
+    align-items: flex-end; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  @media (min-width: 600px) { .modal-overlay { align-items: center; } }
+  .modal-box {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: var(--radius3) var(--radius3) 0 0;
+    padding: 20px; width: 100%; max-width: 540px;
+    max-height: 85vh; overflow-y: auto;
+    animation: slideUp 0.22s ease;
+  }
+  @media (min-width: 600px) {
+    .modal-box { border-radius: var(--radius3); max-height: 80vh; }
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 16px; }
+  .modal-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .modal-sub { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .modal-body { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .modal-body strong { color: var(--text); }
+  .modal-body .stat-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(0,180,255,0.06); }
+  .modal-body .stat-row:last-child { border-bottom: none; }
+  .modal-body .stat-label { color: var(--text3); font-size: 12px; }
+  .modal-body .stat-val { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: var(--bg4); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text2); font-size: 16px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .modal-box { position: relative; }
+  .modal-action-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 16px; border-radius: var(--radius); background: var(--accent2); color: white; font-size: 12px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; font-family: var(--font); }
+
+  /* ── MOBILE BOTTOM NAV ── */
+  .mobile-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--bg2); border-top: 1px solid var(--border2);
+    z-index: 200; padding: 0 4px env(safe-area-inset-bottom, 8px);
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  .mobile-nav-inner {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    height: 56px; align-items: center;
+  }
+  .mob-nav-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; background: none; border: none; cursor: pointer;
+    color: var(--text3); font-size: 10px; font-family: var(--font);
+    letter-spacing: 0.02em; padding: 6px 2px; border-radius: var(--radius);
+    -webkit-tap-highlight-color: transparent; transition: color 0.15s;
+  }
+  .mob-nav-btn.active { color: var(--accent); }
+  .mob-nav-btn .mob-icon { font-size: 18px; line-height: 1; }
+  .mob-nav-more { position: relative; }
+  .mob-nav-more-menu {
+    display: none; position: fixed; bottom: calc(56px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0;
+    background: var(--bg2); border-top: 1px solid var(--border2);
+    padding: 12px 16px; z-index: 199;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .mob-nav-more-menu.open { display: grid; }
+  .mob-more-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: var(--radius);
+    background: var(--bg3); border: 1px solid var(--border);
+    cursor: pointer; color: var(--text2); font-size: 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mob-more-item:active { background: var(--bg4); }
+
+  /* ── AI SETUP BANNER (GitHub workaround) ── */
+  .ai-setup-banner {
+    background: linear-gradient(135deg, rgba(255,179,0,0.08), rgba(0,180,255,0.06));
+    border: 1px solid rgba(255,179,0,0.25); border-radius: var(--radius2);
+    padding: 14px; margin-bottom: 14px;
+  }
+  .ai-setup-title { font-size: 13px; font-weight: 700; color: var(--amber); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .ai-setup-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+  .ai-key-row { display: flex; gap: 8px; }
+  .ai-key-input {
+    flex: 1; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: var(--radius); color: var(--text); padding: 8px 12px;
+    font-family: var(--mono); font-size: 12px; outline: none;
+    -webkit-text-security: disc;
+  }
+  .ai-key-input.revealed { -webkit-text-security: none; }
+  .ai-key-input:focus { border-color: var(--accent); }
+  .ai-key-input::placeholder { color: var(--text3); -webkit-text-security: none; }
+  .ai-key-status { font-family: var(--mono); font-size: 10px; margin-top: 6px; }
+  .ai-key-status.ok { color: var(--green); }
+  .ai-key-status.missing { color: var(--amber); }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 800px) {
+    html, body { overflow: auto; }
+    .app { overflow: visible; }
+    .content { overflow: visible; }
+    body { overflow-x: hidden; }
+    .topbar { height: 48px; padding: 0 14px; }
+    .topbar-nav { display: none; }
+    .ticker-strip { display: none; }
+    .logo-text { font-size: 14px; }
+    .mobile-nav { display: block; }
+    .content { padding-bottom: calc(56px + env(safe-area-inset-bottom, 16px)); }
+    .page { padding: 14px; }
+    .page-header { flex-direction: column; gap: 8px; }
+    .header-actions { width: 100%; }
+    .header-actions .btn { flex: 1; justify-content: center; }
+    .kpi-tile { padding: 12px; }
+    .kpi-value { font-size: 20px; }
+    .card { padding: 14px; }
+    .ai-panel { padding: 12px; }
+    .ai-messages { max-height: 200px; }
+    .grid-1-2 { grid-template-columns: 1fr; }
+    .grid-2-1 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 400px) {
+    .kpi-value { font-size: 18px; }
+    .page { padding: 10px; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── CLICKABLE ENHANCEMENTS ── */
+  .clickable {
+    cursor: pointer; transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .clickable:active { opacity: 0.75; transform: scale(0.98); }
+  .kpi-tile.clickable:hover { border-color: var(--border2); background: var(--bg4); }
+  .tl-item.clickable:hover .tl-title { color: var(--accent); }
+  .tl-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .scenario-card:active { transform: scale(0.98); }
+  .sub-card { -webkit-tap-highlight-color: transparent; }
+  .filing-row { -webkit-tap-highlight-color: transparent; }
+  .signal-item { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: var(--radius); transition: background 0.15s; }
+  .signal-item:hover, .signal-item:active { background: var(--accent3); }
+  .analyst-row { cursor: pointer; border-radius: var(--radius); transition: background 0.15s; padding: 8px 6px; }
+  .analyst-row:hover, .analyst-row:active { background: var(--accent3); }
 </style>
 </head>
 <body>
@@ -547,6 +688,46 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- MORE PAGES MENU (mobile) -->
+<div class="mob-nav-more-menu" id="moreMenu">
+  <div class="mob-more-item" onclick="showPage('subsidiaries');closeMobMenu()">🏢 Subsidiaries</div>
+  <div class="mob-more-item" onclick="showPage('markets');closeMobMenu()">📊 Markets</div>
+  <div class="mob-more-item" onclick="showPage('competitive');closeMobMenu()">⚔️ Competitive</div>
+  <div class="mob-more-item" onclick="showPage('filings');closeMobMenu()">📋 Filings</div>
+  <div class="mob-more-item" onclick="showPage('ownership');closeMobMenu()">👥 Ownership</div>
+  <div class="mob-more-item" onclick="showPage('aichat');closeMobMenu()">🤖 AI Analyst</div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mob-nav-btn active" id="mob-overview" onclick="showPage('overview');setMobActive('overview')">
+      <span class="mob-icon">◈</span><span>Overview</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-financials" onclick="showPage('financials');setMobActive('financials')">
+      <span class="mob-icon">◉</span><span>Finance</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-signals" onclick="showPage('signals');setMobActive('signals')">
+      <span class="mob-icon">◒</span><span>Signals</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-aichat" onclick="showPage('aichat');setMobActive('aichat')">
+      <span class="mob-icon">◨</span><span>AI</span>
+    </button>
+    <button class="mob-nav-btn mob-nav-more" id="mob-more" onclick="toggleMobMenu()">
+      <span class="mob-icon">⋯</span><span>More</span>
+    </button>
+  </div>
+</nav>
 
 <div class="app">
 
@@ -628,28 +809,28 @@
 
     <!-- KPIs -->
     <div class="grid-4">
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('fy2025rev')">
         <div class="kpi-label">FY 2025 Revenue</div>
         <div class="kpi-value">$50.7M</div>
         <div class="kpi-sub"><span class="kpi-delta delta-up">▲ 605%</span> vs FY2024 ($7.19M)</div>
         <div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%;background:var(--green)"></div></div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('guidance2026')">
         <div class="kpi-label">2026 Revenue Target</div>
         <div class="kpi-value">$525M+</div>
         <div class="kpi-sub"><span class="kpi-delta delta-up">↑ raised</span> from $390M (Jul 3 update)</div>
         <div class="kpi-bar"><div class="kpi-bar-fill" style="width:35%;background:var(--accent)"></div></div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('q12026')">
         <div class="kpi-label">Q1 2026 Revenue</div>
         <div class="kpi-value">$50.1M</div>
         <div class="kpi-sub"><span class="kpi-delta delta-up">▲ 1,065%</span> YoY · +66% QoQ</div>
         <div class="kpi-bar"><div class="kpi-bar-fill" style="width:66%;background:var(--purple)"></div></div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showPage('subsidiaries')">
         <div class="kpi-label">Acquisitions (2021–2026)</div>
         <div class="kpi-value">14+</div>
-        <div class="kpi-sub">Sentrycs · Mistral · DZYNE · Omnisys · More</div>
+        <div class="kpi-sub">Tap to see all subsidiaries ↗</div>
         <div class="kpi-bar"><div class="kpi-bar-fill" style="width:90%;background:var(--amber)"></div></div>
       </div>
     </div>
@@ -701,27 +882,27 @@
         <div class="card-header"><span class="card-title">Key Catalysts</span><span class="card-badge badge-amber">2025–2026</span></div>
         <div class="scroll-box" style="max-height:260px">
           <div class="timeline">
-            <div class="tl-item">
+            <div class="tl-item" onclick="showModal('dzyne')">
               <div class="tl-dot green"></div>
               <div class="tl-content">
                 <div class="tl-date">JUL 2, 2026</div>
-                <div class="tl-title">DZYNE Technologies Acquisition — $875.8M</div>
+                <div class="tl-title">DZYNE Technologies Acquisition — $875.8M ↗</div>
                 <div class="tl-body">$200M cash + ~85M ONDS shares. Multi-domain ISR, counter-UAS, autonomous aircraft. Largest deal to date.</div>
               </div>
             </div>
-            <div class="tl-item">
+            <div class="tl-item" onclick="showModal('cyberhawk')">
               <div class="tl-dot amber"></div>
               <div class="tl-content">
                 <div class="tl-date">JUL 2026</div>
-                <div class="tl-title">Cyberhawk Acquisition Announced — ~$125M</div>
+                <div class="tl-title">Cyberhawk Acquisition Announced — ~$125M ↗</div>
                 <div class="tl-body">95% cash-funded. Expected to close Q3 2026.</div>
               </div>
             </div>
-            <div class="tl-item">
+            <div class="tl-item" onclick="showModal('omnisys')">
               <div class="tl-dot green"></div>
               <div class="tl-content">
                 <div class="tl-date">MAY 21, 2026</div>
-                <div class="tl-title">Omnisys Acquisition — ~$259M</div>
+                <div class="tl-title">Omnisys Acquisition — ~$259M ↗</div>
                 <div class="tl-body">Israel-based AI defense planning & decision software. Paid in ONDS common stock.</div>
               </div>
             </div>
@@ -785,32 +966,32 @@
       <div class="section-divider-line"></div>
     </div>
     <div class="grid-3">
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('iron_drone')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">🛸 Iron Drone Raider</div>
         <div class="tag tag-green" style="margin-bottom:8px">Kinetic C-UAS</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">Fully autonomous interceptor drone. Neutralizes small hostile UAVs. Key revenue driver since 2025. Deployed globally at sensitive sites.</div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('optimus')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">🤖 Optimus System</div>
         <div class="tag tag-blue" style="margin-bottom:8px">Drone-in-a-Box</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">Fully autonomous drone platform for continuous security surveillance. RaaS model. FAA-certified BVLOS. Industrial & gov applications.</div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('sentrycs_corf')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">📡 Sentrycs CoRF</div>
         <div class="tag tag-amber" style="margin-bottom:8px">Cyber/RF C-UAS</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">Detection, ID, tracking and cyber-mitigation of unauthorized drones. Complements Iron Drone kinetic layer.</div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('roboteam')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">🚗 Roboteam UGVs</div>
         <div class="tag tag-purple" style="margin-bottom:8px">Ground Robotics</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">Tactical unmanned ground vehicles for allied defense and security operations.</div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('mistral_prod')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">✈️ Mistral Loitering Munitions</div>
         <div class="tag tag-red" style="margin-bottom:8px">Strike / ISR</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">U.S. defense prime capabilities across loitering munitions and ISR, with existing DoD program relationships.</div>
       </div>
-      <div class="kpi-tile">
+      <div class="kpi-tile clickable" onclick="showModal('fullmax')">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">📶 FullMAX SDR</div>
         <div class="tag tag-blue" style="margin-bottom:8px">Private Wireless</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5">IEEE 802.16t patented SDR platform. Mission-critical IoT for rail, utilities, oil & gas, gov. Software-defined broadband.</div>
@@ -975,9 +1156,9 @@
         <div class="sub-card-desc">Optimus System™ autonomous drone platform. Airport, port, and industrial security. Iron Drone Raider kinetic intercept. Globally deployed.</div>
         <div class="sub-card-value">■ Iron Drone · Optimus · Global</div>
       </div>
-      <div class="sub-card">
+      <div class="sub-card" onclick="showModal('sentrycs_corf')">
         <div class="sub-card-icon">📡</div>
-        <div class="sub-card-name">Sentrycs</div>
+        <div class="sub-card-name">Sentrycs ↗</div>
         <div class="sub-card-type">Electronic Warfare · Acquired Nov 2025 · $224.6M</div>
         <div class="sub-card-desc">CoRF Cyber/RF-based CUAS platform. Detects, tracks, and cyber-mitigates unauthorized drones. Combines with Iron Drone for a layered kinetic + electronic C-UAS suite.</div>
         <div class="sub-card-value">■ C-UAS Layer 1 (Cyber/RF)</div>
@@ -1024,30 +1205,30 @@
         <div class="sub-card-desc">Adds stratospheric intelligence, surveillance, and reconnaissance (ISR) capability. Contributed $16M in contracted backlog at closing.</div>
         <div class="sub-card-value">■ Stratospheric ISR</div>
       </div>
-      <div class="sub-card">
+      <div class="sub-card" onclick="showModal('mistral_prod')">
         <div class="sub-card-icon">🎯</div>
-        <div class="sub-card-name">Mistral, Inc.</div>
+        <div class="sub-card-name">Mistral, Inc. ↗</div>
         <div class="sub-card-type">U.S. Defense Prime · Merger Completed Apr 24, 2026 · ~$175–180M</div>
         <div class="sub-card-desc">U.S.-based defense prime contractor with decades of experience on U.S. military, federal, and public safety programs. Loitering munitions. Added $264M in contracted backlog and >$1B in program exposure; makes Ondas a direct prime on Dept. of War programs.</div>
         <div class="sub-card-value">■ Direct Prime Status · $1B+ Programs</div>
       </div>
-      <div class="sub-card">
+      <div class="sub-card" onclick="showModal('omnisys')">
         <div class="sub-card-icon">🧠</div>
-        <div class="sub-card-name">Omnisys Ltd.</div>
+        <div class="sub-card-name">Omnisys Ltd. ↗</div>
         <div class="sub-card-type">AI Defense Software · Acquired May 21, 2026 · ~$259M</div>
         <div class="sub-card-desc">Israel-based developer of AI-powered software for defense planning and real-time decision-making. Paid in ONDS common stock issued over several installments.</div>
         <div class="sub-card-value">■ AI Command & Decision Software</div>
       </div>
-      <div class="sub-card">
+      <div class="sub-card" onclick="showModal('dzyne')">
         <div class="sub-card-icon">🛰️</div>
-        <div class="sub-card-name">DZYNE Technologies</div>
+        <div class="sub-card-name">DZYNE Technologies ↗</div>
         <div class="sub-card-type">Multi-Domain ISR / C-UAS · Acquired Jul 2, 2026 · $875.8M</div>
         <div class="sub-card-desc">Largest Ondas acquisition to date: $200M cash + ~85M ONDS shares. Autonomous aircraft, counter-drone systems, and autonomous effects — establishing Ondas as a vanguard multi-domain autonomous defense platform.</div>
         <div class="sub-card-value">■ $875.8M · Largest Deal to Date</div>
       </div>
-      <div class="sub-card">
+      <div class="sub-card" onclick="showModal('cyberhawk')">
         <div class="sub-card-icon">🦅</div>
-        <div class="sub-card-name">Cyberhawk (Pending)</div>
+        <div class="sub-card-name">Cyberhawk (Pending) ↗</div>
         <div class="sub-card-type">Announced Jul 2026 · ~$125M · Close Q3 2026</div>
         <div class="sub-card-desc">95% cash-funded. Not yet included in the $525M 2026 revenue guidance — represents potential further upside once closed.</div>
         <div class="sub-card-value">■ Pending Close Q3 2026</div>
@@ -1564,7 +1745,7 @@
         <div class="card">
           <div class="card-header"><span class="card-title">Recent Filings</span></div>
           <div class="scroll-box" style="max-height:350px">
-            <div class="filing-row">
+            <div class="filing-row" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">DZYNE Technologies Acquisition — $875.8M</div>
@@ -1572,7 +1753,7 @@
               </div>
               <div class="filing-size">↗</div>
             </div>
-            <div class="filing-row">
+            <div class="filing-row" onclick="openFiling('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001646188&type=8-K&dateb=&owner=include&count=10')">
               <div class="filing-icon filing-8k">8-K</div>
               <div class="filing-info">
                 <div class="filing-title">Raises FY2026 Revenue Guidance to $525M+</div>
@@ -1829,11 +2010,26 @@
 
       <!-- Chat -->
       <div class="ai-panel">
+
+        <!-- GitHub Pages / CORS workaround banner -->
+        <div class="ai-setup-banner" id="aiSetupBanner">
+          <div class="ai-setup-title">⚠️ AI Configuration Required</div>
+          <div class="ai-setup-desc">
+            When running from a <strong>GitHub Pages / local file</strong>, the browser blocks direct API calls without a proxy. Enter your <strong>Anthropic API key</strong> below to enable the AI Analyst. Your key is stored only in your browser's session memory — never sent anywhere except Anthropic's servers directly.<br><br>
+            <em>Don't have a key?</em> Get one at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a> — the free tier works fine for this tool.
+          </div>
+          <div class="ai-key-row">
+            <input class="ai-key-input" id="apiKeyInput" type="text" placeholder="sk-ant-api03-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="btn btn-primary" onclick="saveApiKey()" style="white-space:nowrap">Save Key</button>
+          </div>
+          <div class="ai-key-status missing" id="aiKeyStatus">⚠ No API key set — AI will not respond</div>
+        </div>
+
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border2)">
           <div style="width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent2),var(--purple));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white">AI</div>
           <div>
             <div style="font-size:13px;font-weight:700;color:var(--text)">ONDS Research Analyst</div>
-            <div style="font-size:10px;color:var(--green);font-family:var(--mono)">● Online · Specialized ONDS model</div>
+            <div style="font-size:10px;font-family:var(--mono)" id="aiStatusDot">● Checking configuration…</div>
           </div>
         </div>
 
@@ -1859,6 +2055,17 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+// Mobile nav stubs (full impl added after AI section)
+function setMobActive(id) {
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('mob-' + id);
+  if (el) el.classList.add('active');
+}
+function closeMobMenu() {
+  const m = document.getElementById('moreMenu');
+  if (m) m.classList.remove('open');
+}
+
 const CF = {
   accent: '#2a78d6',
   green: '#1baf7a',
@@ -1879,6 +2086,15 @@ function showPage(id) {
   const btns = document.querySelectorAll('.nav-btn');
   btns.forEach(b => { if (b.textContent.toLowerCase().includes(id.replace('aichat','ai'))) b.classList.add('active'); });
   initChartsForPage(id);
+  // Sync mobile nav
+  const mobPages = ['overview','financials','signals','aichat'];
+  if (mobPages.includes(id)) setMobActive(id);
+  else setMobActive('more');
+  // Close more menu
+  closeMobMenu();
+  // Scroll main content area to top on mobile
+  const mc = document.getElementById('main-content');
+  if (mc) mc.scrollTop = 0;
   window.scrollTo(0, 0);
 }
 function setSideActive(el) {
@@ -2196,13 +2412,60 @@ Provide detailed, nuanced, data-driven analysis. Be specific with numbers, dates
 
 const conversationHistory = [];
 
+// ── API Key Management (GitHub Pages workaround) ──
+let userApiKey = sessionStorage.getItem('onds_api_key') || '';
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val || !val.startsWith('sk-')) {
+    document.getElementById('aiKeyStatus').textContent = '✕ Invalid key format — must start with sk-';
+    document.getElementById('aiKeyStatus').className = 'ai-key-status missing';
+    return;
+  }
+  userApiKey = val;
+  sessionStorage.setItem('onds_api_key', val);
+  document.getElementById('apiKeyInput').value = '';
+  updateAiKeyStatus();
+}
+
+function updateAiKeyStatus() {
+  const banner = document.getElementById('aiSetupBanner');
+  const dot = document.getElementById('aiStatusDot');
+  const status = document.getElementById('aiKeyStatus');
+  if (userApiKey && userApiKey.startsWith('sk-')) {
+    if (banner) banner.style.display = 'none';
+    if (dot) { dot.textContent = '● Online · Specialized ONDS model'; dot.style.color = 'var(--green)'; }
+    if (status) { status.textContent = '✓ API key saved for this session'; status.className = 'ai-key-status ok'; }
+  } else {
+    if (banner) banner.style.display = 'block';
+    if (dot) { dot.textContent = '◌ API key required to activate'; dot.style.color = 'var(--amber)'; }
+    if (status) { status.textContent = '⚠ No API key set — AI will not respond'; status.className = 'ai-key-status missing'; }
+  }
+}
+
+// Run on load
+setTimeout(updateAiKeyStatus, 100);
+
 async function sendAIMessage() {
   const input = document.getElementById('aiInput');
   const messages = document.getElementById('aiMessages');
   const text = input.value.trim();
   if (!text) return;
-  input.value = '';
 
+  // Check for key
+  if (!userApiKey || !userApiKey.startsWith('sk-')) {
+    showPage('aichat');
+    const banner = document.getElementById('aiSetupBanner');
+    if (banner) { banner.style.border = '1px solid var(--amber)'; banner.scrollIntoView({behavior:'smooth',block:'center'}); }
+    const errMsg = document.createElement('div');
+    errMsg.className = 'ai-msg ai';
+    errMsg.innerHTML = '⚠️ <strong>API key required.</strong> Enter your Anthropic API key in the setup panel above to enable the AI Analyst.';
+    messages.appendChild(errMsg);
+    messages.scrollTop = messages.scrollHeight;
+    return;
+  }
+
+  input.value = '';
   const userMsg = document.createElement('div');
   userMsg.className = 'ai-msg user';
   userMsg.textContent = text;
@@ -2220,7 +2483,12 @@ async function sendAIMessage() {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': userApiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -2228,6 +2496,10 @@ async function sendAIMessage() {
         messages: conversationHistory
       })
     });
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${resp.status}`);
+    }
     const data = await resp.json();
     const reply = data.content?.map(b => b.text || '').join('\n') || 'Error retrieving response.';
     conversationHistory.push({ role: 'assistant', content: reply });
@@ -2235,19 +2507,196 @@ async function sendAIMessage() {
     typingEl.innerHTML = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   } catch (e) {
     typingEl.className = 'ai-msg ai';
-    typingEl.textContent = 'Error: Could not connect to AI. Please check your connection.';
+    const isAuthErr = e.message?.includes('401') || e.message?.toLowerCase().includes('auth');
+    typingEl.innerHTML = isAuthErr
+      ? '🔑 <strong>Authentication failed.</strong> Check your API key — it may be invalid or expired. Update it in the setup panel above.'
+      : `⚠️ <strong>Connection error:</strong> ${e.message || 'Could not reach Anthropic API. Check your internet connection.'}`;
+    if (isAuthErr) { userApiKey = ''; sessionStorage.removeItem('onds_api_key'); updateAiKeyStatus(); }
   }
   messages.scrollTop = messages.scrollHeight;
 }
 
 function sendQuickPrompt(text) {
   showPage('aichat');
+  setMobActive('aichat');
   document.getElementById('aiInput').value = text;
   setTimeout(sendAIMessage, 300);
 }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.activeElement === document.getElementById('aiInput')) sendAIMessage();
+});
+
+// ── Mobile Nav helpers ──
+function toggleMobMenu() {
+  const m = document.getElementById('moreMenu');
+  m.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('moreMenu');
+  if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('.mob-nav-more')) {
+    menu.classList.remove('open');
+  }
+});
+
+// ── Filing helper ──
+function openFiling(url) {
+  window.open(url, '_blank');
+}
+
+// ── Modal system ──
+const MODAL_DATA = {
+  fy2025rev: {
+    title: 'FY 2025 Revenue — $50.7M',
+    sub: 'Annual Results · +605% YoY',
+    body: `<div class="stat-row"><span class="stat-label">FY2024 Revenue</span><span class="stat-val">$7.19M</span></div>
+    <div class="stat-row"><span class="stat-label">FY2025 Revenue</span><span class="stat-val" style="color:var(--green)">$50.7M</span></div>
+    <div class="stat-row"><span class="stat-label">YoY Growth</span><span class="stat-val" style="color:var(--green)">+605%</span></div>
+    <div class="stat-row"><span class="stat-label">FY2025 Gross Margin</span><span class="stat-val">~35%</span></div>
+    <div class="stat-row"><span class="stat-label">FY2025 Net Loss</span><span class="stat-val" style="color:var(--red)">($137.2M)</span></div>
+    <div class="stat-row"><span class="stat-label">Adjusted EBITDA</span><span class="stat-val" style="color:var(--red)">Negative</span></div>
+    <p style="margin-top:12px;font-size:12px;color:var(--text3)">FY2025 net loss is primarily non-cash — driven by acquisition-related charges, goodwill amortization, and stock compensation from the 2025 M&A wave. The underlying business was growing rapidly.</p>
+    <button class="modal-action-btn" onclick="showPage('financials');closeModalDirect()">View Full Financials →</button>`,
+  },
+  guidance2026: {
+    title: '2026 Revenue Guidance — $525M+',
+    sub: 'Raised Twice · Updated Jul 3, 2026',
+    body: `<div class="stat-row"><span class="stat-label">Initial 2026 Guidance (Jan 2026)</span><span class="stat-val">$175–180M</span></div>
+    <div class="stat-row"><span class="stat-label">Raised after Q1 (May 14, 2026)</span><span class="stat-val">$390M</span></div>
+    <div class="stat-row"><span class="stat-label">Current Guidance (Jul 3, 2026)</span><span class="stat-val" style="color:var(--green)">$525M+</span></div>
+    <div class="stat-row"><span class="stat-label">Cyberhawk (pending) included?</span><span class="stat-val" style="color:var(--amber)">No — upside</span></div>
+    <div class="stat-row"><span class="stat-label">DZYNE & Omnisys included?</span><span class="stat-val" style="color:var(--green)">Yes</span></div>
+    <div class="stat-row"><span class="stat-label">Pro Forma Backlog (Q1 2026)</span><span class="stat-val" style="color:var(--green)">$457M</span></div>
+    <p style="margin-top:12px;font-size:12px;color:var(--text3)">The guidance was raised from $175M to $390M after Q1 2026 beat expectations by 25%, then raised again to $525M+ on July 3 following the DZYNE and Omnisys closings. Cyberhawk (pending close Q3 2026) is not included and represents further potential upside.</p>`,
+  },
+  q12026: {
+    title: 'Q1 2026 Results — $50.1M Revenue',
+    sub: 'Record Quarter · +1,065% YoY',
+    body: `<div class="stat-row"><span class="stat-label">Revenue</span><span class="stat-val" style="color:var(--green)">$50.1M</span></div>
+    <div class="stat-row"><span class="stat-label">YoY Growth</span><span class="stat-val" style="color:var(--green)">+1,065%</span></div>
+    <div class="stat-row"><span class="stat-label">QoQ Growth</span><span class="stat-val" style="color:var(--green)">+66%</span></div>
+    <div class="stat-row"><span class="stat-label">Gross Margin</span><span class="stat-val" style="color:var(--green)">~49%</span></div>
+    <div class="stat-row"><span class="stat-label">Beat guidance by</span><span class="stat-val" style="color:var(--green)">~25%</span></div>
+    <div class="stat-row"><span class="stat-label">Adj. EBITDA (corp.)</span><span class="stat-val" style="color:var(--amber)">($10.9M)</span></div>
+    <div class="stat-row"><span class="stat-label">Product cos. Adj. EBITDA</span><span class="stat-val" style="color:var(--green)">Positive ✓</span></div>
+    <div class="stat-row"><span class="stat-label">Cash & Investments</span><span class="stat-val" style="color:var(--green)">$1.48B</span></div>
+    <p style="margin-top:12px;font-size:12px;color:var(--text3)">Q1 2026 matched all of FY2025 revenue in a single quarter. Profitability targets were pulled forward by 6 months. Next report (Q2 2026) expected Aug 12–17, 2026.</p>
+    <button class="modal-action-btn" onclick="showPage('financials');closeModalDirect()">Full Financials →</button>`,
+  },
+  iron_drone: {
+    title: '🛸 Iron Drone Raider',
+    sub: 'Kinetic Counter-UAS · Airobotics / OAS',
+    body: `<p><strong>Iron Drone Raider</strong> is a fully autonomous kinetic CUAS interceptor developed by Airobotics (acq. Jan 2023). It autonomously launches, tracks, and physically intercepts unauthorized or hostile UAVs — no operator required at the moment of intercept.</p>
+    <div class="stat-row"><span class="stat-label">Type</span><span class="stat-val">Kinetic Intercept Drone</span></div>
+    <div class="stat-row"><span class="stat-label">Autonomy</span><span class="stat-val" style="color:var(--green)">Fully Autonomous</span></div>
+    <div class="stat-row"><span class="stat-label">Operator required?</span><span class="stat-val" style="color:var(--green)">No</span></div>
+    <div class="stat-row"><span class="stat-label">Market</span><span class="stat-val">C-UAS · $7.4B by 2030</span></div>
+    <div class="stat-row"><span class="stat-label">Deployed in</span><span class="stat-val">Israel, Middle East, Global</span></div>
+    <p style="margin-top:10px;font-size:12px;color:var(--text3)">Works as a kinetic layer alongside the Sentrycs CoRF cyber/RF detection layer, creating a full-spectrum CUAS stack — detect, track, identify, and neutralize.</p>
+    <button class="modal-action-btn" onclick="showPage('subsidiaries');closeModalDirect()">View All Subsidiaries →</button>`,
+  },
+  optimus: {
+    title: '🤖 Optimus System',
+    sub: 'Drone-in-a-Box · Airobotics · RaaS Model',
+    body: `<p><strong>Optimus System</strong> is Airobotics' flagship autonomous drone-in-a-box platform for 24/7 site security, perimeter surveillance, and emergency response.</p>
+    <div class="stat-row"><span class="stat-label">Model</span><span class="stat-val">Robotics-as-a-Service (RaaS)</span></div>
+    <div class="stat-row"><span class="stat-label">FAA Approval</span><span class="stat-val" style="color:var(--green)">BVLOS Certified ✓</span></div>
+    <div class="stat-row"><span class="stat-label">Operator required</span><span class="stat-val" style="color:var(--green)">None on-site</span></div>
+    <div class="stat-row"><span class="stat-label">Target markets</span><span class="stat-val">Airports, ports, infrastructure</span></div>`,
+  },
+  sentrycs_corf: {
+    title: '📡 Sentrycs CoRF Platform',
+    sub: 'Cyber/RF CUAS · Acquired Nov 2025 · $224.6M',
+    body: `<p><strong>Sentrycs CoRF</strong> is a Cyber/RF-based counter-UAS platform that detects, identifies, tracks, and cyber-mitigates unauthorized drones without physical destruction — complementing Iron Drone's kinetic intercept layer.</p>
+    <div class="stat-row"><span class="stat-label">Deal value</span><span class="stat-val">$224.6M</span></div>
+    <div class="stat-row"><span class="stat-label">Closed</span><span class="stat-val">Nov 2025</span></div>
+    <div class="stat-row"><span class="stat-label">Technology</span><span class="stat-val">Cyber/RF Jamming + ID</span></div>
+    <div class="stat-row"><span class="stat-label">Key use cases</span><span class="stat-val">Airports, borders, events</span></div>`,
+  },
+  roboteam: {
+    title: '🚗 Roboteam UGVs',
+    sub: 'Ground Robotics · Acquired Dec 2025 · $81.7M',
+    body: `<p><strong>Roboteam</strong> builds tactical unmanned ground vehicles (UGVs) for allied defense, EOD, reconnaissance, and battlefield logistics.</p>
+    <div class="stat-row"><span class="stat-label">Deal value</span><span class="stat-val">$81.7M</span></div>
+    <div class="stat-row"><span class="stat-label">Closed</span><span class="stat-val">Dec 2025</span></div>
+    <div class="stat-row"><span class="stat-label">Platform type</span><span class="stat-val">Tactical UGV</span></div>
+    <div class="stat-row"><span class="stat-label">Markets</span><span class="stat-val">Allied defense, EOD, Recon</span></div>`,
+  },
+  mistral_prod: {
+    title: '✈️ Mistral Loitering Munitions & ISR',
+    sub: 'U.S. Defense Prime · Merged Apr 24, 2026 · ~$175–180M',
+    body: `<p><strong>Mistral, Inc.</strong> converted Ondas into a direct U.S. defense prime contractor. Key products include loitering munitions and ISR platforms with existing DoD program relationships.</p>
+    <div class="stat-row"><span class="stat-label">Deal value</span><span class="stat-val">~$175–180M</span></div>
+    <div class="stat-row"><span class="stat-label">Merger completed</span><span class="stat-val">Apr 24, 2026</span></div>
+    <div class="stat-row"><span class="stat-label">Backlog added</span><span class="stat-val" style="color:var(--green)">$264M</span></div>
+    <div class="stat-row"><span class="stat-label">Program exposure</span><span class="stat-val" style="color:var(--green)">$1B+</span></div>
+    <div class="stat-row"><span class="stat-label">Prime contractor status</span><span class="stat-val" style="color:var(--green)">✓ Direct DoW Prime</span></div>`,
+  },
+  fullmax: {
+    title: '📶 FullMAX SDR Platform',
+    sub: 'Ondas Networks · IEEE 802.16t · Private Wireless',
+    body: `<p><strong>FullMAX</strong> is Ondas Networks' patented Software-Defined Radio (SDR) platform built on the IEEE 802.16t standard — the only standards-based private broadband solution for mission-critical IoT in rail, utilities, and government.</p>
+    <div class="stat-row"><span class="stat-label">Standard</span><span class="stat-val">IEEE 802.16t</span></div>
+    <div class="stat-row"><span class="stat-label">Type</span><span class="stat-val">Patented SDR</span></div>
+    <div class="stat-row"><span class="stat-label">TAM (2026E)</span><span class="stat-val">$12.8B</span></div>
+    <div class="stat-row"><span class="stat-label">Customers</span><span class="stat-val">BNSF, UP, Utilities</span></div>
+    <div class="stat-row"><span class="stat-label">Markets</span><span class="stat-val">US, Israel, India</span></div>
+    <p style="margin-top:10px;font-size:12px;color:var(--text3)">FullMAX is the only mission-critical-grade standards-based private wireless solution for railroads. Ongoing spectrum certifications in India and Israel open additional government and utility revenue.</p>`,
+  },
+  dzyne: {
+    title: '🛰️ DZYNE Technologies — $875.8M',
+    sub: 'Largest Acquisition · Closed Jul 2, 2026',
+    body: `<p><strong>DZYNE Technologies</strong> is Ondas' largest acquisition to date — a multi-domain autonomous defense platform covering ISR, counter-UAS, and autonomous aircraft.</p>
+    <div class="stat-row"><span class="stat-label">Total consideration</span><span class="stat-val" style="color:var(--green)">$875.8M</span></div>
+    <div class="stat-row"><span class="stat-label">Cash component</span><span class="stat-val">$200M</span></div>
+    <div class="stat-row"><span class="stat-label">Stock component</span><span class="stat-val">~85M ONDS shares</span></div>
+    <div class="stat-row"><span class="stat-label">Closed</span><span class="stat-val">Jul 2, 2026</span></div>
+    <div class="stat-row"><span class="stat-label">Capabilities</span><span class="stat-val">ISR · C-UAS · Auto Aircraft</span></div>
+    <p style="margin-top:10px;font-size:12px;color:var(--text3)">Included in the $525M+ 2026 guidance. The deal's share-funded component (~85M new shares) represents significant dilution. DZYNE capabilities are expected to open major new DoD program opportunities.</p>
+    <button class="modal-action-btn" onclick="showPage('subsidiaries');closeModalDirect()">View All Subsidiaries →</button>`,
+  },
+  cyberhawk: {
+    title: '🦅 Cyberhawk — ~$125M (Pending)',
+    sub: 'Announced Jul 2026 · Expected Close Q3 2026',
+    body: `<p><strong>Cyberhawk</strong> is a pending acquisition announced in July 2026. It is NOT yet included in the $525M+ FY2026 guidance — closure represents incremental upside.</p>
+    <div class="stat-row"><span class="stat-label">Deal value</span><span class="stat-val">~$125M</span></div>
+    <div class="stat-row"><span class="stat-label">Cash component</span><span class="stat-val" style="color:var(--green)">~95%</span></div>
+    <div class="stat-row"><span class="stat-label">Expected close</span><span class="stat-val">Q3 2026</span></div>
+    <div class="stat-row"><span class="stat-label">In 2026 guidance?</span><span class="stat-val" style="color:var(--amber)">No — upside</span></div>
+    <p style="margin-top:10px;font-size:12px;color:var(--text3)">A delayed or failed close would be a modest incremental-upside miss rather than a core-guidance risk, since it was never included in the $525M+ figure.</p>`,
+  },
+  omnisys: {
+    title: '🧠 Omnisys Ltd. — ~$259M',
+    sub: 'AI Defense Software · Closed May 21, 2026',
+    body: `<p><strong>Omnisys</strong> is an Israel-based developer of AI-powered software for defense planning and real-time battle decision-making.</p>
+    <div class="stat-row"><span class="stat-label">Deal value</span><span class="stat-val">~$259M</span></div>
+    <div class="stat-row"><span class="stat-label">Payment structure</span><span class="stat-val">100% ONDS stock</span></div>
+    <div class="stat-row"><span class="stat-label">Closed</span><span class="stat-val">May 21, 2026</span></div>
+    <div class="stat-row"><span class="stat-label">Capabilities</span><span class="stat-val">AI Defense Planning / C2</span></div>
+    <p style="margin-top:10px;font-size:12px;color:var(--text3)">Paid entirely in ONDS common stock issued in installments. Resale registration filed Jun 26, 2026. Included in the $525M+ guidance.</p>`,
+  },
+};
+
+function showModal(id) {
+  const d = MODAL_DATA[id];
+  if (!d) return;
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `<div class="modal-title">${d.title}</div><div class="modal-sub">${d.sub}</div><div class="modal-body">${d.body}</div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
 });
 </script>
 </body>
