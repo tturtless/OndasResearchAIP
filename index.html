@@ -2510,7 +2510,7 @@ async function sendAIMessage() {
   if (!text) return;
 
   // Check for key
-  if (!userApiKey || !userApiKey.startsWith('AIza')) {
+  if (!userApiKey || userApiKey.length < 10) {
     showPage('aichat');
     const banner = document.getElementById('aiSetupBanner');
     if (banner) { banner.style.border = '1px solid var(--amber)'; banner.scrollIntoView({behavior:'smooth',block:'center'}); }
@@ -2572,11 +2572,11 @@ async function sendAIMessage() {
     typingEl.innerHTML = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   } catch (e) {
     typingEl.className = 'ai-msg ai';
-    const isAuthErr = e.message?.includes('401') || e.message?.includes('403') || e.message?.toLowerCase().includes('api key') || e.message?.toLowerCase().includes('permission');
+    var isAuthErr = e.message && (e.message.includes('401') || e.message.includes('403') || e.message.toLowerCase().includes('api key') || e.message.toLowerCase().includes('permission'));
     typingEl.innerHTML = isAuthErr
       ? '🔑 <strong>Authentication failed.</strong> Check your Gemini API key — it may be invalid or missing permissions. Update it in the setup panel above.'
       : `⚠️ <strong>Connection error:</strong> ${e.message || 'Could not reach Gemini API. Check your internet connection.'}`;
-    if (isAuthErr) { userApiKey = ''; sessionStorage.removeItem('onds_gemini_key'); updateAiKeyStatus(); }
+    if (isAuthErr) { userApiKey = ''; try { sessionStorage.removeItem('onds_gemini_key'); } catch(e2) {} updateAiKeyStatus(); }
   }
   messages.scrollTop = messages.scrollHeight;
 }
