@@ -2041,7 +2041,7 @@
             <em>Get a free key at</em> <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent)">aistudio.google.com/apikey</a> — the free tier works fine for this tool.
           </div>
           <div class="ai-key-row">
-            <input class="ai-key-input" id="apiKeyInput" type="text" placeholder="AIza..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input class="ai-key-input" id="apiKeyInput" type="text" placeholder="AQ... (your Gemini API key)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="btn btn-primary" onclick="saveApiKey()" style="white-space:nowrap">Save Key</button>
           </div>
           <div class="ai-key-status missing" id="aiKeyStatus">⚠ No API key set — AI will not respond</div>
@@ -2474,8 +2474,8 @@ let userApiKey = sessionStorage.getItem('onds_gemini_key') || '';
 
 function saveApiKey() {
   const val = document.getElementById('apiKeyInput').value.trim();
-  if (!val || !val.startsWith('AIza')) {
-    document.getElementById('aiKeyStatus').textContent = '✕ Invalid key — Gemini keys start with AIza';
+  if (!val || val.length < 10) {
+    document.getElementById('aiKeyStatus').textContent = '✕ Please enter a valid Gemini API key';
     document.getElementById('aiKeyStatus').className = 'ai-key-status missing';
     return;
   }
@@ -2489,7 +2489,7 @@ function updateAiKeyStatus() {
   const banner = document.getElementById('aiSetupBanner');
   const dot = document.getElementById('aiStatusDot');
   const status = document.getElementById('aiKeyStatus');
-  if (userApiKey && userApiKey.startsWith('AIza')) {
+  if (userApiKey && userApiKey && userApiKey.length >= 10) {
     if (banner) banner.style.display = 'none';
     if (dot) { dot.textContent = '● Online · Gemini 1.5 Flash · Specialized ONDS model'; dot.style.color = 'var(--green)'; }
     if (status) { status.textContent = '✓ Gemini API key saved for this session'; status.className = 'ai-key-status ok'; }
