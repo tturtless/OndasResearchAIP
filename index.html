@@ -2044,6 +2044,7 @@
             <select id="modelSelect" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);padding:10px 12px;font-family:var(--font);font-size:13px;outline:none;-webkit-appearance:none;appearance:none;min-height:44px">
               <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite (recommended)</option>
               <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
               <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
             </select>
           </div>
@@ -2549,27 +2550,18 @@ async function sendAIMessage() {
   messages.scrollTop = messages.scrollHeight;
 
   try {
-    // Build contents array for Gemini (includes history + system as first user turn)
-    const contents = [
-      { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
-      { role: 'model', parts: [{ text: 'Understood. I am the ONDS Research Analyst, fully briefed on Ondas Holdings through July 2026. Ready to assist with investment analysis.' }] },
-      ...conversationHistory
-    ];
-
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${userApiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents,
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: conversationHistory,
           generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
         })
       }
     );
-
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({}));
       throw new Error(err?.error?.message || `HTTP ${resp.status}`);
     }
 
