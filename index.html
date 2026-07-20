@@ -2042,8 +2042,8 @@
           </div>
           <div style="margin-bottom:8px">
             <select id="modelSelect" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);padding:10px 12px;font-family:var(--font);font-size:13px;outline:none;-webkit-appearance:none;appearance:none;min-height:44px">
-              <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite (free · fastest)</option>
-              <option value="gemini-2.5-flash">Gemini 2.5 Flash (free · balanced)</option>
+              <option value="gemini-3.5-flash">Gemini 3.5 Flash (free · fastest)</option>
+              <option value="gemini-3.5-flash">Gemini 3.5 Flash (free · balanced)</option>
             </select>
           </div>
           <div class="ai-key-row">
@@ -2479,11 +2479,11 @@ document.addEventListener('DOMContentLoaded', function() {
 let userApiKey = sessionStorage.getItem('onds_gemini_key') || '';
 // Always reset to stable model - clear any stale preview IDs from old sessions
 var _savedModel = sessionStorage.getItem('onds_gemini_model') || '';
-if (_savedModel.includes('preview') || _savedModel.includes('lite-0') || !_savedModel.startsWith('gemini-2.5')) {
-  _savedModel = 'gemini-2.5-flash-lite';
+if (_savedModel.includes('preview') || _savedModel.includes('lite-0') || !_savedModel.startsWith('gemini-3.5')) {
+  _savedModel = 'gemini-3.5-flash';
   try { sessionStorage.removeItem('onds_gemini_model'); } catch(e) {}
 }
-let geminiModel = _savedModel || 'gemini-2.5-flash-lite';
+let geminiModel = _savedModel || 'gemini-3.5-flash';
 
 function saveApiKey() {
   var inputEl = document.getElementById('apiKeyInput');
